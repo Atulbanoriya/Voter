@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voting_app/feature/candidateapply.dart';
 import 'package:voting_app/feature/language.dart';
 import 'package:voting_app/feature/login.dart';
 import 'package:voting_app/feature/profileview.dart';
+import 'package:voting_app/feature/totalvotes.dart';
 import 'package:voting_app/feature/votenow.dart';
 
 class Dashboard extends StatefulWidget {
@@ -112,6 +114,19 @@ class _DashboardState extends State<Dashboard> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const LanguageView()));
+              },
+            ),
+
+
+
+            ListTile(
+              leading: const Icon(CupertinoIcons.bag_fill_badge_plus),
+              title: const Text('Total Votes'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TotalVotes()));
               },
             ),
 

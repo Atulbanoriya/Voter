@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 class CandidateApply extends StatefulWidget {
   const CandidateApply({super.key});
 
@@ -18,7 +19,12 @@ class _CandidateApplyState extends State<CandidateApply> {
 
   Future<void> _submitApplication() async {
     if (_formKey.currentState?.validate() ?? false) {
-      await FirebaseFirestore.instance.collection('CandidateApply').add({
+      final now = DateTime.now();
+      final bool isAfterNoon = now.hour >= 12;
+
+      final collectionName = isAfterNoon ? 'UpcomingElection' : 'CandidateApply';
+
+      await FirebaseFirestore.instance.collection(collectionName).add({
         'userId': _userIdController.text,
         'constituency': _constituencyController.text,
         'electionType': _electionTypeController.text,
@@ -29,7 +35,7 @@ class _CandidateApplyState extends State<CandidateApply> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Application submitted successfully!')),
+        SnackBar(content: Text('Application submitted successfully to $collectionName!')),
       );
 
       // Clear the form
@@ -72,7 +78,7 @@ class _CandidateApplyState extends State<CandidateApply> {
                 TextFormField(
                   controller: _userIdController,
                   decoration: InputDecoration(
-                    label: const Text("User Id"),
+                    label: const Text("User Id/ Name"),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
