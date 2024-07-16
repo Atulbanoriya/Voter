@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:voting_app/feature/login.dart'; // Ensure you have the Login screen here
+import 'package:voting_app/feature/login.dart';
 
 class LetsFinishView extends StatefulWidget {
   const LetsFinishView({super.key});
@@ -176,7 +176,7 @@ class _LetsFinishViewState extends State<LetsFinishView> {
                 TextFormField(
                   controller: _constituencyController,
                   decoration: const InputDecoration(
-                    label: Text("Constituency"),
+                      label: Text("Constituency"),
                     prefixIcon: Icon(Icons.location_history),
                   ),
                   validator: (value) {

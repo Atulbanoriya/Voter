@@ -40,12 +40,42 @@ class _SignViewState extends State<SignView> {
           password: _passwordController.text,
         );
 
+        // Send verification email
+        User? user = userCredential.user;
+        await user?.sendEmailVerification();
+
+        // Show dialog to verify email
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              title: const Text('Verify your email'),
+              content: const Text('A verification email has been sent to your email. Please verify it before proceeding.'),
+            ),
+          ),
+        );
+
+        // Periodically check if the email is verified
+        bool isVerified = false;
+        while (!isVerified) {
+          await Future.delayed(const Duration(seconds: 5));
+          await user?.reload();
+          user = FirebaseAuth.instance.currentUser;
+          isVerified = user?.emailVerified ?? false;
+        }
+
+        // Close the dialog
+        Navigator.of(context).pop();
+
+        // Proceed to the next step after email verification
         String? ipAddress = await _getIpAddress();
         String? macAddress = await _getMacAddress();
         Position? position = await _getLocation();
 
         if (ipAddress != null && macAddress != null && position != null) {
-          await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+          await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
             'email': _emailController.text,
             'ip_address': ipAddress,
             'mac_address': macAddress,
@@ -82,7 +112,7 @@ class _SignViewState extends State<SignView> {
   Future<String?> _getMacAddress() async {
     try {
       final info = NetworkInfo();
-      return await info.getWifiBSSID(); // This gets the MAC address of the WiFi router, not the device itself
+      return await info.getWifiBSSID();
     } catch (e) {
       print(e);
     }
