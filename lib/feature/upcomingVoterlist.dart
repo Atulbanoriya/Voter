@@ -96,81 +96,102 @@ import 'package:voting_app/model/candidate.dart';
          ),
        ),
        body: Padding(
-         padding: const EdgeInsets.all(16.0),
+         padding: const EdgeInsets.all(14.0),
          child: ListView.builder(
+           scrollDirection: Axis.horizontal,
            itemCount: candidates.length,
            itemBuilder: (context, index) {
              final candidate = candidates[index];
-             return Container(
-               margin: const EdgeInsets.only(bottom: 16),
-               height: 350,
-               decoration: BoxDecoration(
-                 borderRadius: BorderRadius.circular(12),
-                 border: Border.all(
-                   color: Colors.black,
-                   width: 2,
-                 ),
-               ),
-               child: Padding(
-                 padding: const EdgeInsets.all(16),
-                 child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: [
-                     Center(
-                       child: CircleAvatar(
-                         radius: 50,
-                         backgroundImage: NetworkImage(candidate.imageUrl),
-                       ),
+             return Row(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               mainAxisAlignment: MainAxisAlignment.start,
+               children: [
+                 Container(
+                   width: 60,
+                   height: 120,
+                   margin: const EdgeInsets.symmetric(horizontal:2),
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.circular(12),
+                     border: Border.all(
+                       color: Colors.black,
+                       width: 2,
                      ),
-                     const SizedBox(height: 20),
-                     Text('Name: ${candidate.candidateName}', style: const TextStyle(fontSize: 20)),
-                     const SizedBox(height: 10),
-                     Text('Election Type: ${candidate.electionType}', style: const TextStyle(fontSize: 16)),
-                     const SizedBox(height: 10),
-                     Text('Designation: ${candidate.designation}', style: const TextStyle(fontSize: 16)),
-                     const SizedBox(height: 10),
-                     Text('Party: ${candidate.party}', style: const TextStyle(fontSize: 16)),
-                     const SizedBox(height: 20),
-                     if (!hasVoted)
-                       InkWell(
-                         onTap: () => voteForCandidate(index),
-                         child: Container(
-                           height: 40,
+                   ),
+                   child: Column(
+                     crossAxisAlignment: CrossAxisAlignment.center,
+                     children: [
+                       SizedBox(height: 10,),
+                       Center(
+                         child: CircleAvatar(
+                           radius: 15,
+                           backgroundImage: NetworkImage(candidate.imageUrl),
+                         ),
+                       ),
+                       const SizedBox(height: 5), // Add space here
+                       Text(
+                         ' ${candidate.candidateName}',
+                         maxLines: 1,
+                         style: const TextStyle(
+                           fontSize: 10,
+                           color: Colors.black,
+                           fontWeight: FontWeight.bold,
+                         ),
+                       ),
+                       const SizedBox(height: 5), // Add space here
+                       Text(
+                         '${candidate.party}',
+                         style: const TextStyle(
+                           fontSize: 10,
+                           color: Colors.black,
+                           fontWeight: FontWeight.bold,
+                         ),
+                       ),
+                       const SizedBox(height: 10), // Add space here
+                       if (!hasVoted)
+                         InkWell(
+                           onTap: () => voteForCandidate(index),
+                           child: Container(
+                             height: 22,
+                             width: 50,
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(12),
+                               color: Colors.blue,
+                             ),
+                             child: const Center(
+                               child: Text(
+                                 "Vote",
+                                 style: TextStyle(
+                                   fontSize: 10,
+                                   color: Colors.white,
+                                   fontWeight: FontWeight.bold,
+                                 ),
+                               ),
+                             ),
+                           ),
+                         )
+                       else if (votedCandidateIndex == index)
+                         Container(
+                           height: 22,
+                           width: 50,
                            decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(12),
-                             color: Colors.blue,
+                             borderRadius: BorderRadius.circular(8),
+                             color: Colors.green,
                            ),
                            child: const Center(
                              child: Text(
-                               "Vote",
+                               "Voted",
                                style: TextStyle(
-                                 fontSize: 16,
+                                 fontSize: 10,
                                  color: Colors.white,
+                                 fontWeight: FontWeight.bold,
                                ),
                              ),
                            ),
                          ),
-                       )
-                     else if (votedCandidateIndex == index)
-                       Container(
-                         height: 40,
-                         decoration: BoxDecoration(
-                           borderRadius: BorderRadius.circular(12),
-                           color: Colors.green,
-                         ),
-                         child: const Center(
-                           child: Text(
-                             "Voted",
-                             style: TextStyle(
-                               fontSize: 16,
-                               color: Colors.white,
-                             ),
-                           ),
-                         ),
-                       ),
-                   ],
+                     ],
+                   ),
                  ),
-               ),
+               ],
              );
            },
          ),

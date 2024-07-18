@@ -15,6 +15,7 @@ class VoteNow extends StatefulWidget {
 
 class _VoteNowState extends State<VoteNow> {
   bool _isLoading = true;
+
   List<Map<String, dynamic>> _currentElections = [];
   List<Map<String, dynamic>> _upcomingElections = [];
 
@@ -42,6 +43,7 @@ class _VoteNowState extends State<VoteNow> {
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +89,8 @@ class _VoteNowState extends State<VoteNow> {
                   "Current Elections",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: _currentElections.length,
-                  itemBuilder: (context, index) {
-                    return ElectionCard(userData: _currentElections[index]);
-                  },
-                ),
+
+            ElectionCard(),
               ],
             ),
           ),
@@ -107,14 +103,7 @@ class _VoteNowState extends State<VoteNow> {
                   "Upcoming Elections",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: _upcomingElections.length,
-                  itemBuilder: (context, index) {
-                    return UpComingData(userData: _upcomingElections[index]);
-                  },
-                ),
+               UpComingData(),
               ],
             ),
           ),
@@ -144,7 +133,7 @@ class ElectionCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => ElectionScreen(userData: userData)));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => ElectionScreen(userData: userData, electionType: '',)));
       },
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -177,10 +166,10 @@ class ElectionCard extends StatelessWidget {
                 child: const Padding(
                   padding: EdgeInsets.all(12),
                   child: Text(
-                    "Election : General Elections",
+                    "Election : Current General Elections",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                     ),
                   ),
                 ),
@@ -283,10 +272,6 @@ class ElectionCard extends StatelessWidget {
 }
 
 
-
-
-
-
 class UpComingData extends StatelessWidget {
   final Map<String, dynamic>? userData;
 
@@ -340,10 +325,10 @@ class UpComingData extends StatelessWidget {
                 child: const Padding(
                   padding: EdgeInsets.all(12),
                   child: Text(
-                    "Election : General Elections",
+                    "Election : General State Elections",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                     ),
                   ),
                 ),

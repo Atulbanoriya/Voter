@@ -173,8 +173,8 @@ class _DashboardState extends State<Dashboard> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Image.asset(
-              'assest/image/logo.png', // Path to your app logo
-              height: 200, // Adjust the height as needed
+              'assest/image/logo.png',
+              height: 200,
             ),
           ),
           Expanded(

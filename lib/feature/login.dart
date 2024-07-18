@@ -19,7 +19,6 @@ class _LoginViewState extends State<LoginView> {
   bool _isLoading = false;
 
   bool _isPasswordVisible = false;
-  bool _isConfirmPasswordVisible = false;
 
   Future<void> _login() async {
     if (_formKey.currentState?.validate() ?? false) {
